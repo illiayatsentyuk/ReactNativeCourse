@@ -1,3 +1,3 @@
 export interface ErrorNotificationProps {
-	errorMessage?: string;
+  errorMessage?: string;
 }
