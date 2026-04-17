@@ -1,20 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Input } from "./shared/Input/Input";
+import { COLORS, GAPS } from "./shared/tokens";
+import { Button } from "./shared/Button/Button";
+import { ErrorNotification } from "./shared/ErrorNotification/ErrorNotification";
+import { useState } from "react";
 
 export default function App() {
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined,
+  );
+  const alert = () => {
+    setErrorMessage("Invalid email or password");
+    setTimeout(() => {
+      setErrorMessage(undefined);
+    }, 4000);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <ErrorNotification errorMessage={errorMessage} />
+      <View style={styles.content}>
+        <Image
+          source={require("./assets/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <View style={styles.form}>
+          <Input placeholder="Email" />
+          <Input isPassword placeholder="Password" />
+          <Button text="Sign in" onPress={alert} />
+        </View>
+        <Text style={styles.restorePassword}>Restore Password</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "center",
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 55,
+    backgroundColor: COLORS.black,
+  },
+  content: {
+    alignItems: "center",
+    gap: GAPS.g50,
+  },
+  form: {
+    alignSelf: "stretch",
+    gap: GAPS.g16,
+  },
+  logo: {
+    width: 220,
+  },
+  restorePassword: {
+    color: COLORS.link,
+    textAlign: "center",
   },
 });
